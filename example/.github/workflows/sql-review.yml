@@ -10,6 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Check SQL
+        # TODO: use a specific version
         uses: bytebase/sql-review-action@main
         with:
           override: ./sql-review-override.yml

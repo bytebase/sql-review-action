@@ -1,4 +1,4 @@
-template: bb.sql-review.prod
+template: bb.sql-review.prod # Need to provide the template id
 ruleList:
   - type: statement.select.no-select-all
     level: DISABLED
