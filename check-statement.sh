@@ -1,7 +1,7 @@
 #!/bin/sh
 # ===========================================================================
 # File: check-statement.sh
-# Description: usage: ./scheck-statement.sh --file=[file] --database-type=[database type] --override=[override] --template-id=[template id] --api=[API URL]
+# Description: usage: ./check-statement.sh --file=[file] --database-type=[database type] --override=[override] --template-id=[template id] --api=[API URL]
 # ===========================================================================
 
 # Get parameters
