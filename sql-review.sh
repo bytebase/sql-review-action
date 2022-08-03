@@ -1,84 +1,40 @@
+#!/bin/sh
+# ===========================================================================
+# File: sql-review.sh
+# Description: usage: ./sql-review.sh [files] [database type] [override file path] [template id]
+# ===========================================================================
 
-FILE=$1
+FILES=$1
 DATABASE_TYPE=$2
-CONFIG=$3
+OVERRIDE_FILE=$3
 TEMPLATE_ID=$4
 
-# Users can set their own SQL review API URL into the environment variable "BB_SQL_API"
+DOC_URL=https://www.bytebase.com/docs/reference/error-code/advisor
 API_URL=$BB_SQL_API
 if [ -z $API_URL ]
 then
-    # TODO: replace the url
     API_URL=https://sql-service.onrender.com/v1/sql/advise
-fi
-DOC_URL=https://www.bytebase.com/docs/reference/error-code/advisor
-
-statement=`cat $FILE`
-if [ $? != 0 ]
-then
-    echo "::error::Cannot open file $FILE"
-    exit 1
 fi
 
 override=""
-if [ ! -z $CONFIG ]
+if [ ! -z $OVERRIDE_FILE ]
 then
-    override=`cat $CONFIG`
+    override=`cat $OVERRIDE_FILE`
 
     if [ $? != 0 ]
     then
-        echo "::error::Cannot find SQL review config file"
+        echo "::error file=$FILE,line=1,col=5,endColumn=7::Cannot find SQL review config file"
         exit 1
     fi
 fi
 
-response=$(curl -s -w "%{http_code}" $API_URL \
-  -H "X-Platform: GitHub" \
-  -H "X-Repository: $GITHUB_REPOSITORY" \
-  -H "X-Actor: $GITHUB_ACTOR" \
-  -G --data-urlencode "statement=$statement" \
-  -G --data-urlencode "override=$override" \
-  -d databaseType=$DATABASE_TYPE \
-  -d template=$TEMPLATE_ID)
-http_code=$(tail -n1 <<< "$response")
-body=$(sed '$ d' <<< "$response")
-
-echo "::debug::response code: $http_code, response body: $body"
-
-if [ $http_code != 200 ]
-then
-    echo "::error::Failed to check SQL with response code $http_code and body $body"
-    exit 1
-fi
-
 result=0
-while read status code title content; do
-    text="status:$status,code:$code,title:$title,content:$content"
-    echo "::debug::$text"
-
-    if [ -z "$content" ]; then
-        # The content cannot be empty. Otherwise action cannot output the error message in files.
-        content=$title
+for FILE in $FILES; do
+    echo "Start check statement in file $FILE"
+    ./check-statement.sh $FILE $DATABASE_TYPE "$override" "$TEMPLATE_ID" $API_URL
+    if [ $? != 0 ]; then
+        result=1
     fi
+done
 
-    if [ $code != 0 ]; then
-        title="$title ($code)"
-        content="$content
-Doc: $DOC_URL#$code"
-        content="${content//$'\n'/'%0A'}"
-        error_msg="file=$FILE,line=1,col=1,endColumn=2,title=$title::$content"
-
-        if [ $status == 'WARN' ]; then
-            echo "::warning $error_msg"
-        else
-            result=$code
-            echo "::error $error_msg"
-        fi
-    fi
-done <<< "$(echo $body | jq -r '.[] | "\(.status) \(.code) \(.title) \(.content)"')"
-
-if [ $result != 0 ]; then
-    exit 1
-fi
-
-exit 0
+exit $result

@@ -25,10 +25,7 @@ runs:
         files: ${{ inputs.files }}
     - name: SQL Review
       run: |
-        for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-          echo "Start check statement in file $file"
-          ./sql-review.sh $file ${{ inputs.database }} "${{ inputs.override }}" "${{ inputs.template }}"
-        done
+        ./sql-review.sh "${{ steps.changed-files.outputs.all_changed_files }}" ${{ inputs.database }} "${{ inputs.override }}" "${{ inputs.template_id }}"
       shell: bash
 branding:
   icon: "database"
