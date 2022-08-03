@@ -11,10 +11,6 @@ inputs:
   template-id:
     description: 'The SQL check template id, required if the override is not specified. Should be one of "bb.sql-review.prod", "bb.sql-review.dev".'
     required: false
-  ignore-files:
-    description: 'Ignore changes to this list of files.'
-    required: false
-    default: ''
 runs:
   using: "composite"
   steps:
@@ -24,10 +20,9 @@ runs:
       with:
         files: |
           **/*.sql
-        files_ignore: ${{ inputs.ignore-files }}
     - name: SQL Review
       run: |
-        ./entrypoint.sh --files="${{ steps.changed-files.outputs.all_changed_files }}" --database-type=${{ inputs.database-type }} --override-file="${{ inputs.override-file-path }}" --template-id="${{ inputs.template-id }}"
+        ./main.sh --files="${{ steps.changed-files.outputs.all_changed_files }}" --database-type=${{ inputs.database-type }} --override-file="${{ inputs.override-file-path }}" --template-id="${{ inputs.template-id }}"
       shell: bash
 branding:
   icon: "database"

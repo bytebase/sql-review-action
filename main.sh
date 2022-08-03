@@ -1,7 +1,7 @@
 #!/bin/sh
 # ===========================================================================
-# File: entrypoint.sh
-# Description: usage: ./entrypoint.sh --files=[files] --database-type=[database type] --override-file=[override file path] --template-id=[template id]
+# File: main.sh
+# Description: usage: ./main.sh --files=[files] --database-type=[database type] --override-file=[override file path] --template-id=[template id]
 # ===========================================================================
 
 # Get parameters

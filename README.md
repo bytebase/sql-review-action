@@ -22,7 +22,6 @@ jobs:
           override-file-path: "<Your SQL review rules configuration file path>"
           template-id: "<SQL review rule template id>"
           database-type: "<The database type>"
-          ignore-files: "<The file list you want to ignore in this action>"
 ```
 
 The action will be triggered in any pull request which has SQL files changed. It will call the SQL review service to check if the change is valid according to the SQL review rules.
@@ -32,7 +31,6 @@ The action will be triggered in any pull request which has SQL files changed. It
 - `database-type`: **Required**. The database type, should be one of `MYSQL`, `POSTGRES` or `TIDB`.
 - `override-file-path`: **Optional**. Your SQL review rules configuration file path. You can configure and generate this file in [Bytebase SQL Review Guide](https://www.bytebase.com/sql-review-guide) page. You can ignore this parameter and only provide the template id if you don't want to customize rules.
 - `template-id`: **Optional**. The SQL Review rule template id, should be one of `bb.sql-review.prod` or `bb.sql-review.dev`. You can ignore this parameter if you provide the `override-file-path` parameter.
-- `ignore-files`: **Optional**. The file list you want to ignore in this action, default `""`.
 
 ## Example
 
