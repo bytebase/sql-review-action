@@ -12,7 +12,7 @@ inputs:
     description: 'The SQL check template id, required if the override is not specified. Should be one of "bb.sql-review.prod", "bb.sql-review.dev".'
     required: false
   file-pattern:
-    description: 'Check for changes using only this list of files. Defaults "**/*.sql"'
+    description: 'The file path pattern for your SQL files. Defaults "**/*.sql"'
     required: false
     default: '**/*.sql'
 runs:

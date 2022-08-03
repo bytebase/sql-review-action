@@ -13,5 +13,5 @@ jobs:
         # TODO: use a specific version
         uses: bytebase/sql-review-action@main
         with:
-          override: ./sql-review-override.yml
-          database: POSTGRES
+          override-file-path: ./sql-review-override.yml
+          database-type: POSTGRES

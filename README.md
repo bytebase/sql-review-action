@@ -19,20 +19,20 @@ jobs:
         # TODO: use a specific version
         uses: bytebase/sql-review-action@main
         with:
-          files: "<The path for your SQL files>" # Optional.
-          override: "<Your SQL review rules configuration file path>" # Optional, we can only provide the template id
-          database: "<Database type>"
-          template: "<SQL review rule template id>" # Optional. Required if the override is not specified.
+          file-pattern: "<The file path pattern for your SQL files>"
+          override-file-path: "<Your SQL review rules configuration file path>"
+          template-id: "<SQL review rule template id>"
+          database-type: "<The database type>"
 ```
 
 The action will be triggered in any pull request which has SQL files changed. It will call the SQL review service to check if the change is valid according to the SQL review rules.
 
 ### About parameters
 
-- `files`: The path for your SQL files. **Optional**, default `**/*.sql`.
-- `override`: Your SQL review rules configuration file path. **Optional** if you provide the template id and don't want to customize rules. You can configure and generate this file in [Bytebase SQL Review Guide](https://www.bytebase.com/sql-review-guide) page.
-- `database`: Your database type. **Required**, should be one of `MYSQL`, `POSTGRES` or `TIDB`.
-- `template`: The SQL Review rule template id. **Optional** if you provide the `override` parameter. Should be one of `bb.sql-review.prod` or `bb.sql-review.dev`.
+- `file-pattern`: **Optional**. The path for your SQL files, default `**/*.sql`.
+- `override-file-path`: **Optional**. Your SQL review rules configuration file path. You can configure and generate this file in [Bytebase SQL Review Guide](https://www.bytebase.com/sql-review-guide) page. You can ignore this parameter and only provide the template id if you don't want to customize rules.
+- `template-id`: **Optional**. The SQL Review rule template id, should be one of `bb.sql-review.prod` or `bb.sql-review.dev`. You can ignore this parameter if you provide the `override-file-path` parameter.
+- `database-type`: **Required**. The database type, should be one of `MYSQL`, `POSTGRES` or `TIDB`.
 
 ## Example
 
