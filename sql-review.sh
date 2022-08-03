@@ -1,27 +1,31 @@
 #!/bin/sh
 # ===========================================================================
 # File: sql-review.sh
-# Description: usage: ./sql-review.sh --files=[files] --database-type=[database type] --override-file=[override file path] --template-id=[template id]
+# Description: usage: ./sql-review.sh --file=[file] --database-type=[database type] --override=[override] --template-id=[template id] --api=[API URL]
 # ===========================================================================
 
 # Get parameters
 for i in "$@"
 do
 case $i in
-    --files=*)
-    FILES="${i#*=}"
+    --file=*)
+    FILE="${i#*=}"
     shift
     ;;
     --database-type=*)
     DATABASE_TYPE="${i#*=}"
     shift
     ;;
-    --override-file=*)
-    OVERRIDE_FILE="${i#*=}"
+    --override=*)
+    OVERRIDE="${i#*=}"
     shift
     ;;
     --template-id=*)
     TEMPLATE_ID="${i#*=}"
+    shift
+    ;;
+    --api=*)
+    API_URL="${i#*=}"
     shift
     ;;
     *) # unknown option
@@ -30,34 +34,54 @@ esac
 done
 
 DOC_URL=https://www.bytebase.com/docs/reference/error-code/advisor
-API_URL=$BB_SQL_API
-if [ -z $API_URL ]
-then
-    API_URL=https://sql-service.onrender.com/v1/sql/advise
+
+statement=`cat $FILE`
+if [ $? != 0 ]; then
+    echo "::error::Cannot open file $FILE"
+    exit 1
 fi
 
-override=""
-if [ ! -z $OVERRIDE_FILE ]
-then
-    override=`cat $OVERRIDE_FILE`
+response=$(curl -s -w "%{http_code}" $API_URL \
+  -H "X-Platform: GitHub" \
+  -H "X-Repository: $GITHUB_REPOSITORY" \
+  -H "X-Actor: $GITHUB_ACTOR" \
+  -G --data-urlencode "statement=$statement" \
+  -G --data-urlencode "override=$OVERRIDE" \
+  -d databaseType=$DATABASE_TYPE \
+  -d template=$TEMPLATE_ID)
+http_code=$(tail -n1 <<< "$response")
+body=$(sed '$ d' <<< "$response")
 
-    if [ $? != 0 ]
-    then
-        echo "::error file=$FILE,line=1,col=5,endColumn=7::Cannot find SQL review config file"
-        exit 1
-    fi
+echo "::debug::response code: $http_code, response body: $body"
+
+if [ $http_code != 200 ]; then
+    echo ":error::Failed to check SQL with response code $http_code and body $body"
+    exit 1
 fi
 
 result=0
-for FILE in $FILES; do
-    # The action tj-actions/changed-files has a bug. When no files match the pattern, it will return all changed files
-    if [[ $FILE =~ \.sql$ ]]; then
-        echo "Start check statement in file $FILE"
-        ./check-statement.sh --file=$FILE --database-type=$DATABASE_TYPE --override="$override" --template-id="$TEMPLATE_ID" --api=$API_URL
-        if [ $? != 0 ]; then
-            result=1
+while read status code title content; do
+    echo "::debug::status:$status, code:$code, title:$title, content:$content"
+
+    if [ -z "$content" ]; then
+        # The content cannot be empty. Otherwise action cannot output the error message in files.
+        content=$title
+    fi
+
+    if [ $code != 0 ]; then
+        title="$title ($code)"
+        content="$content
+Doc: $DOC_URL#$code"
+        content="${content//$'\n'/'%0A'}"
+        error_msg="file=$FILE,line=1,col=1,endColumn=2,title=$title::$content"
+
+        if [ $status == 'WARN' ]; then
+            echo "::warning $error_msg"
+        else
+            result=$code
+            echo "::error $error_msg"
         fi
     fi
-done
+done <<< "$(echo $body | jq -r '.[] | "\(.status) \(.code) \(.title) \(.content)"')"
 
 exit $result
