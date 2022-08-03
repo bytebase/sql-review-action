@@ -1,14 +1,37 @@
 #!/bin/sh
 # ===========================================================================
 # File: check-statement.sh
-# Description: usage: ./scheck-statement.sh [statement] [database type] [override] [template id] [API URL]
+# Description: usage: ./scheck-statement.sh --file=[file] --database-type=[database type] --override=[override] --template-id=[template id] --api=[API URL]
 # ===========================================================================
 
-FILE=$1
-DATABASE_TYPE=$2
-OVERRIDE=$3
-TEMPLATE_ID=$4
-API_URL=$5
+# Get parameters
+for i in "$@"
+do
+case $i in
+    --file=*)
+    FILE="${i#*=}"
+    shift
+    ;;
+    --database-type=*)
+    DATABASE_TYPE="${i#*=}"
+    shift
+    ;;
+    --override=*)
+    OVERRIDE="${i#*=}"
+    shift
+    ;;
+    --template-id=*)
+    TEMPLATE_ID="${i#*=}"
+    shift
+    ;;
+    --api=*)
+    API_URL="${i#*=}"
+    shift
+    ;;
+    *) # unknown option
+    ;;
+esac
+done
 
 DOC_URL=https://www.bytebase.com/docs/reference/error-code/advisor
 
@@ -38,8 +61,7 @@ fi
 
 result=0
 while read status code title content; do
-    text="status:$status,code:$code,title:$title,content:$content"
-    echo "::debug::$text"
+    echo "::debug::status:$status, code:$code, title:$title, content:$content"
 
     if [ -z "$content" ]; then
         # The content cannot be empty. Otherwise action cannot output the error message in files.
@@ -62,8 +84,4 @@ Doc: $DOC_URL#$code"
     fi
 done <<< "$(echo $body | jq -r '.[] | "\(.status) \(.code) \(.title) \(.content)"')"
 
-if [ $result != 0 ]; then
-    exit 1
-fi
-
-exit 0
+exit $result
