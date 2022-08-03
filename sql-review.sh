@@ -47,7 +47,7 @@ echo "::debug::response code: $http_code, response body: $body"
 
 if [ $http_code != 200 ]
 then
-    echo "::error::failed to check SQL with response code $http_code and body $body"
+    echo "::error::Failed to check SQL with response code $http_code and body $body"
     exit 1
 fi
 
@@ -62,8 +62,6 @@ while read status code title content; do
     fi
 
     if [ $code != 0 ]; then
-        echo "::error::$text"
-
         title="$title ($code)"
         content="$content
 Doc: $DOC_URL#$code"
@@ -73,9 +71,9 @@ Doc: $DOC_URL#$code"
         if [ $status == 'WARN' ]; then
             echo "::warning $error_msg"
         else
+            result=$code
             echo "::error $error_msg"
         fi
-        result=$code
     fi
 done <<< "$(echo $body | jq -r '.[] | "\(.status) \(.code) \(.title) \(.content)"')"
 
