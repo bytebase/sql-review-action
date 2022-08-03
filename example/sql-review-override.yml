@@ -1,3 +1,4 @@
+# You can configure and generate this file in https://www.bytebase.com/sql-review-guide
 template: bb.sql-review.prod # Need to provide the template id
 ruleList:
   - type: statement.select.no-select-all

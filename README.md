@@ -19,6 +19,7 @@ jobs:
         # TODO: use a specific version
         uses: bytebase/sql-review-action@main
         with:
+          files: "<The path for your SQL files>" # Optional.
           override: "<Your SQL review rules configuration file path>" # Optional, we can only provide the template id
           database: "<Database type>"
           template: "<SQL review rule template id>" # Optional. Required if the override is not specified.
@@ -28,7 +29,8 @@ The action will be triggered in any pull request which has SQL files changed. It
 
 ### About parameters
 
-- `override`: Your SQL review rules configuration file path. **Optional** if you provide the template id and don't want to customize rules.
+- `files`: The path for your SQL files. **Optional**, default `**/*.sql`.
+- `override`: Your SQL review rules configuration file path. **Optional** if you provide the template id and don't want to customize rules. You can configure and generate this file in [Bytebase SQL Review Guide](https://www.bytebase.com/sql-review-guide) page.
 - `database`: Your database type. **Required**, should be one of `MYSQL`, `POSTGRES` or `TIDB`.
 - `template`: The SQL Review rule template id. **Optional** if you provide the `override` parameter. Should be one of `bb.sql-review.prod` or `bb.sql-review.dev`.
 
