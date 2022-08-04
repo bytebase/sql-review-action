@@ -33,7 +33,7 @@ DOC_URL=https://www.bytebase.com/docs/reference/error-code/advisor
 API_URL=$BB_SQL_API
 if [ -z $API_URL ]
 then
-    API_URL=https://bytebase-sql-service.onrender.com/v1/sql/advise
+    API_URL=https://sql.bytebase.com/v1/sql/advise
 fi
 
 override=""
