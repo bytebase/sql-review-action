@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # ===========================================================================
 # File: main.sh
 # Description: usage: ./main.sh --files=[files] --database-type=[database type] --override-file=[override file path] --template-id=[template id]
@@ -53,7 +53,7 @@ for FILE in $FILES; do
     # The action tj-actions/changed-files has a bug. When no files match the pattern, it will return all changed files
     if [[ $FILE =~ \.sql$ ]]; then
         echo "Start check statement in file $FILE"
-        ./sql-review.sh --file=$FILE --database-type=$DATABASE_TYPE --override="$override" --template-id="$TEMPLATE_ID" --api=$API_URL
+        $GITHUB_ACTION_PATH/sql-review.sh --file=$FILE --database-type=$DATABASE_TYPE --override="$override" --template-id="$TEMPLATE_ID" --api=$API_URL
         if [ $? != 0 ]; then
             result=1
         fi
