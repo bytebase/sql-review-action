@@ -1,0 +1,17 @@
+on: [pull_request]
+
+env:
+  BB_SQL_API: ${{ secrets.BB_SQL_API }} # Optional. Users can provide their own SQL Review API URL
+
+jobs:
+  sql-review:
+    runs-on: ubuntu-latest
+    name: SQL Review
+    steps:
+      - uses: actions/checkout@v3
+      - name: Check SQL
+        # TODO: use a specific version
+        uses: bytebase/sql-review-action@main
+        with:
+          override-file-path: ./sql-review-override.yml
+          database-type: POSTGRES
