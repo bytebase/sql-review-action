@@ -16,8 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Check SQL
-        # TODO: use a specific version
-        uses: bytebase/sql-review-action@main
+        uses: bytebase/sql-review-action@0.0.1
         with:
           override-file-path: "<Your SQL review rules configuration file path>"
           template-id: "<SQL review rule template id>"
@@ -40,4 +39,4 @@ Once you configure the action, you can get these error or warning message based 
 
 Go to the `./example/` folder to see how to configure the workflow and override SQL review rules.
 
-Go to [bytebase](https://github.com/bytebase/bytebase) for a real example.
+Go to [bytebase](https://github.com/bytebase/bytebase/tree/main/.github/workflows) for a real example.
