@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # ===========================================================================
 # File: sql-review.sh
 # Description: usage: ./sql-review.sh --file=[file] --database-type=[database type] --override=[override] --template-id=[template id] --api=[API URL]
