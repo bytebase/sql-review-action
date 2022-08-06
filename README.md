@@ -1,4 +1,4 @@
-# Bytebase SQL Review Action
+# SQL Review Action
 
 The GitHub Action for SQL Review. Parse and check the SQL statement according to the SQL review rules.
 
@@ -29,7 +29,7 @@ The action will be triggered in any pull request which has SQL files changed. It
 
 - `database-type`: **Required**. The database type, should be one of `MYSQL`, `POSTGRES` or `TIDB`.
 - `override-file-path`: **Optional**. Your SQL review rules configuration file path. You can configure and generate this file in [Bytebase SQL Review Guide](https://www.bytebase.com/sql-review-guide) page. You can ignore this parameter and only provide the template id if you don't want to customize rules.
-- `template-id`: **Optional**. The SQL Review rule template id, should be one of `bb.sql-review.prod` or `bb.sql-review.dev`. You can ignore this parameter if you provide the `override-file-path` parameter.
+- `template-id`: **Optional**. The SQL Review rule template id, should be one of [`bb.sql-review.prod`](https://bytebase.com//sql-review-guide?templateId=bb.sql-review.prod) or [`bb.sql-review.dev`](https://bytebase.com//sql-review-guide?templateId=bb.sql-review.dev). You can ignore this parameter if you provide the `override-file-path` parameter.
 
 ## Example
 

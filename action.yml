@@ -1,4 +1,4 @@
-name: Bytebase-SQL-Review
+name: SQL-Review
 description: 'Parse and check the SQL statement according to the SQL review rules'
 inputs:
   override-file-path:
