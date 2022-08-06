@@ -37,6 +37,5 @@ Once you configure the action, you can get these error or warning message based 
 
 ![example](./assets/example.webp)
 
-Go to the `./example/` folder to see how to configure the workflow and override SQL review rules.
-
-Go to [bytebase](https://github.com/bytebase/bytebase/tree/main/.github/workflows) for a real example.
+- Go to the [`./example/`](./example/) folder to see how to configure the workflow and override SQL review rules.
+- Go to [bytebase](https://github.com/bytebase/bytebase/tree/main/.github/workflows) for a real example.
