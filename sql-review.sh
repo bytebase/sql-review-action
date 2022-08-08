@@ -74,6 +74,7 @@ while read status code title content; do
 
     if [ $code != 0 ]; then
         title="$title ($code)"
+        # To indent the output message
         content="$content
 Doc: $DOC_URL#$code"
         content="${content//$'\n'/'%0A'}"
