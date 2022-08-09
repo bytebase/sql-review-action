@@ -77,6 +77,10 @@ while read status code title content; do
         # To indent the output message
         content="$content
 Doc: $DOC_URL#$code"
+
+        echo "### [$status] $title" >> $GITHUB_STEP_SUMMARY
+        echo "$content" >> $GITHUB_STEP_SUMMARY
+
         content="${content//$'\n'/'%0A'}"
         error_msg="file=$FILE,line=1,col=1,endColumn=2,title=$title::$content"
 
