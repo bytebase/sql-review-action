@@ -29,7 +29,8 @@ case $i in
 esac
 done
 
-DOC_URL=https://www.bytebase.com/docs/reference/error-code/advisor
+# Use BB_SQL_API from environment as default value.
+# Users can deploy their own SQL Service from https://github.com/Bytebase/Bytebase/blob/main/Dockerfile.sql-service, thus they can get their own SQL check API and inject it into the repo's environment
 API_URL=$BB_SQL_API
 if [ -z $API_URL ]
 then
@@ -50,7 +51,6 @@ fi
 
 result=0
 for FILE in $FILES; do
-    # The action tj-actions/changed-files has a bug. When no files match the pattern, it will return all changed files
     if [[ $FILE =~ \.sql$ ]]; then
         echo "Start check statement in file $FILE"
         $GITHUB_ACTION_PATH/sql-review.sh --file=$FILE --database-type=$DATABASE_TYPE --override="$override" --template-id="$TEMPLATE_ID" --api=$API_URL
