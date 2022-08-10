@@ -64,7 +64,15 @@ if [ $http_code != 200 ]; then
 fi
 
 result=0
-while read status code title content; do
+index=0
+
+echo $body | jq -r '.[]' | jq '.content' | while read -r row; do
+    content=`echo $row | sed 's/^"\(.*\)"$/\1/'`
+    title=`echo $body | jq -r ".[$index].title"`
+    status=`echo $body | jq -r ".[$index].status"`
+    code=`echo $body | jq -r ".[$index].code"`
+    (( index++ ))
+
     echo "::debug::status:$status, code:$code, title:$title, content:$content"
 
     if [ -z "$content" ]; then
@@ -91,6 +99,6 @@ Doc: $DOC_URL#$code"
             echo "::error $error_msg"
         fi
     fi
-done <<< "$(echo $body | jq -r '.[] | "\(.status) \(.code) \(.title) \(.content)"')"
+done
 
 exit $result
