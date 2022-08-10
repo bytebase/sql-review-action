@@ -16,7 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Check SQL
-        uses: bytebase/sql-review-action@0.0.2
+        uses: bytebase/sql-review-action@0.0.3
         with:
           override-file-path: "<Your SQL review rules configuration file path>"
           template-id: "<SQL review rule template id>"
