@@ -1,0 +1,36 @@
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "VERSION"
+
+name: Create Release
+
+jobs:
+  build:
+    name: Create Release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Get Version
+        id: get-version
+        run: |
+          verion=`cat VERSION`
+          echo "::set-output name=version::$verion"
+      - name: Create Tag
+        uses: negz/create-tag@v1
+        with:
+          version: ${{ steps.get-version.outputs.version }}
+          message: "Release ${{ steps.get-version.outputs.version }}"
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.get-version.outputs.version }}
+          release_name: Release ${{ steps.get-version.outputs.version }}
+          draft: false
+          prerelease: false
