@@ -54,7 +54,7 @@ response=$(curl -s -w "%{http_code}" -X POST $API_URL \
   -H "X-Repository: $GITHUB_REPOSITORY" \
   -H "X-Actor: $GITHUB_ACTOR" \
   -H "X-Version: $version" \
-  -H "X-Source: SQL-Review-Action" \
+  -H "X-Source: Action" \
   -H "Content-Type: application/json" \
   -d "$request_body")
 http_code=$(tail -n1 <<< "$response")
