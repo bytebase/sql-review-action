@@ -41,6 +41,8 @@ if [ $? != 0 ]; then
     exit 1
 fi
 
+version=`cat $GITHUB_ACTION_PATH/VERSION`
+
 request_body=$(jq -n \
     --arg statement "$statement" \
     --arg override "$OVERRIDE" \
@@ -51,6 +53,8 @@ response=$(curl -s -w "%{http_code}" -X POST $API_URL \
   -H "X-Platform: GitHub" \
   -H "X-Repository: $GITHUB_REPOSITORY" \
   -H "X-Actor: $GITHUB_ACTOR" \
+  -H "X-Version: $version" \
+  -H "X-Source: SQL-Review-Action" \
   -H "Content-Type: application/json" \
   -d "$request_body")
 http_code=$(tail -n1 <<< "$response")
