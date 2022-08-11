@@ -41,6 +41,10 @@ if [ $? != 0 ]; then
     exit 1
 fi
 
+version=`cat $GITHUB_ACTION_PATH/VERSION`
+actor=`echo $GITHUB_ACTOR | tr '[:upper:]' '[:lower:]'`
+repository=`echo $GITHUB_REPOSITORY | tr '[:upper:]' '[:lower:]'`
+
 request_body=$(jq -n \
     --arg statement "$statement" \
     --arg override "$OVERRIDE" \
@@ -49,8 +53,10 @@ request_body=$(jq -n \
     '$ARGS.named')
 response=$(curl -s -w "%{http_code}" -X POST $API_URL \
   -H "X-Platform: GitHub" \
-  -H "X-Repository: $GITHUB_REPOSITORY" \
-  -H "X-Actor: $GITHUB_ACTOR" \
+  -H "X-Repository: $repository" \
+  -H "X-Actor: $actor" \
+  -H "X-Version: $version" \
+  -H "X-Source: action" \
   -H "Content-Type: application/json" \
   -d "$request_body")
 http_code=$(tail -n1 <<< "$response")
