@@ -16,7 +16,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Check SQL
-        uses: bytebase/sql-review-action@0.0.4
+        # You can change it to a specific version like bytebase/sql-review-action@0.0.4
+        # We suggest using the latest version through the tag. Check it at https://github.com/Bytebase/sql-review-action/tags
+        uses: bytebase/sql-review-action@main
         with:
           override-file-path: "<Your SQL review rules configuration file path>"
           template-id: "<SQL review rule template id>"
