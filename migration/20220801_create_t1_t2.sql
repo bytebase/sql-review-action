@@ -1,9 +1,0 @@
-CREATE TABLE t1 (
-    id INTEGER,
-    name TEXT
-);
-
-CREATE TABLE t2 (
-    id INTEGER PRIMARY KEY,
-    name TEXT DEFAULT ""
-);
