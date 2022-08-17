@@ -72,11 +72,10 @@ fi
 result=0
 index=0
 
-while read row; do
-    content=`echo $row | sed 's/^"\(.*\)"$/\1/'`
-    title=`echo $body | jq -r ".[$index].title"`
+while read code; do
+    content=`echo $body | jq -r ".[$index].content"`
     status=`echo $body | jq -r ".[$index].status"`
-    code=`echo $body | jq -r ".[$index].code"`
+    title=`echo $body | jq -r ".[$index].title"`
     (( index++ ))
 
     echo "::debug::status:$status, code:$code, title:$title, content:$content"
@@ -105,6 +104,6 @@ Doc: $DOC_URL#$code"
             echo "::error $error_msg"
         fi
     fi
-done <<< "$(echo $body | jq -r '.[]' | jq '.content')"
+done <<< "$(echo $body | jq -r '.[]' | jq '.code')"
 
 exit $result
