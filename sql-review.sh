@@ -76,9 +76,10 @@ while read code; do
     content=`echo $body | jq -r ".[$index].content"`
     status=`echo $body | jq -r ".[$index].status"`
     title=`echo $body | jq -r ".[$index].title"`
+    line=`echo $body | jq -r ".[$index].line"`
     (( index++ ))
 
-    echo "::debug::status:$status, code:$code, title:$title, content:$content"
+    echo "::debug::status:$status, code:$code, title:$title, line:$line, content:$content"
 
     if [ -z "$content" ]; then
         # The content cannot be empty. Otherwise action cannot output the error message in files.
@@ -91,11 +92,18 @@ while read code; do
         content="$content
 Doc: $DOC_URL#$code"
 
+        if ! [[ $line =~ '^[0-9]+$' ]] ; then
+            line=1
+        fi
+        if [ $line -le 0 ];then
+            line=1
+        fi
+
         echo "### [$status] $title" >> $GITHUB_STEP_SUMMARY
         echo "$content" >> $GITHUB_STEP_SUMMARY
 
         content="${content//$'\n'/'%0A'}"
-        error_msg="file=$FILE,line=1,col=1,endColumn=2,title=$title::$content"
+        error_msg="file=$FILE,line=$line,col=1,endColumn=2,title=$title::$content"
 
         if [ $status == 'WARN' ]; then
             echo "::warning $error_msg"
