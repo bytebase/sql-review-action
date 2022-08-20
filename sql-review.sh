@@ -34,6 +34,7 @@ esac
 done
 
 DOC_URL=https://www.bytebase.com/docs/reference/error-code/advisor
+NUM_REGEX='^[0-9]+$'
 
 statement=`cat $FILE`
 if [ $? != 0 ]; then
@@ -92,7 +93,7 @@ while read code; do
         content="$content
 Doc: $DOC_URL#$code"
 
-        if ! [[ $line =~ '^[0-9]+$' ]] ; then
+        if ! [[ $line =~ $NUM_REGEX ]] ; then
             line=1
         fi
         if [ $line -le 0 ];then
