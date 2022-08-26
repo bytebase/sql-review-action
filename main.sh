@@ -49,6 +49,8 @@ then
     fi
 fi
 
+echo "::debug::template:$TEMPLATE_ID, override:$override"
+
 result=0
 for FILE in $FILES; do
     if [[ $FILE =~ \.sql$ ]]; then

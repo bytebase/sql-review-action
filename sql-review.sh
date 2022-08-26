@@ -41,6 +41,8 @@ if [ $? != 0 ]; then
     exit 1
 fi
 
+echo "::debug::file:$FILE, statement:$statement"
+
 version=`cat $GITHUB_ACTION_PATH/VERSION`
 actor=`echo $GITHUB_ACTOR | tr '[:upper:]' '[:lower:]'`
 repository=`echo $GITHUB_REPOSITORY | tr '[:upper:]' '[:lower:]'`
