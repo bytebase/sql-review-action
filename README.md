@@ -1,6 +1,6 @@
 # SQL Review Action
 
-The GitHub Action for SQL Review. Parse and check the SQL statement according to the [SQL review rules](https://www.bytebase.com/sql-review-guide).
+The GitHub Action for SQL Review. Parse and check the SQL statement according to the [SQL review rules](https://www.bytebase.com/sql-review-guide) to detect SQL anti-patterns and enforce schema consistency across the organization.
 
 ## Usage
 
