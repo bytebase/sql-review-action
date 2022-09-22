@@ -47,6 +47,7 @@ actor=`echo $GITHUB_ACTOR | tr '[:upper:]' '[:lower:]'`
 repository=`echo $GITHUB_REPOSITORY | tr '[:upper:]' '[:lower:]'`
 
 request_body=$(jq -n \
+    --arg filePath "$FILE" \
     --arg statement "$statement" \
     --arg override "$OVERRIDE" \
     --arg databaseType "$DATABASE_TYPE" \
