@@ -24,7 +24,7 @@ case $i in
     TEMPLATE_ID="${i#*=}"
     shift
     ;;
-    --external-url=*)
+    --api=*)
     API_URL="${i#*=}"
     shift
     ;;
@@ -37,6 +37,7 @@ if [ -z $API_URL ]
 then
     API_URL=https://sql.bytebase.com/v1/advise
 fi
+echo "API URL: $API_URL"
 
 override=""
 if [ ! -z $OVERRIDE_FILE ]

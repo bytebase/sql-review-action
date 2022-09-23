@@ -30,7 +30,7 @@ runs:
         pattern: "${{ inputs.file-pattern }}"
     - name: SQL Review
       run: |
-        $GITHUB_ACTION_PATH/main.sh --files="${{ steps.changed-files.outputs.files_created }} ${{ steps.changed-files.outputs.files_updated }}" --database-type=${{ inputs.database-type }} --override-file="${{ inputs.override-file-path }}" --template-id="${{ inputs.template-id }}"
+        $GITHUB_ACTION_PATH/main.sh --files="${{ steps.changed-files.outputs.files_created }} ${{ steps.changed-files.outputs.files_updated }}" --database-type=${{ inputs.database-type }} --override-file="${{ inputs.override-file-path }}" --template-id="${{ inputs.template-id }}" --api="${{ inputs.external-url }}"
       shell: bash
 branding:
   icon: "database"
