@@ -43,6 +43,6 @@ Once you configure the action, you can get these error or warning message based 
 
 - [bytebase/sql-review-action-example](https://github.com/Bytebase/sql-review-action-example) shows a minimum example of configuring and overriding the SQL rules for multiple database systems.
 
-- [bytebase/bytebase](https://github.com/Bytebase/Bytebase) shows an example of onboardind SQL Review action into a real world project.
+- [bytebase/bytebase](https://github.com/Bytebase/Bytebase) shows an example of onboarding SQL Review action into a real world project.
   - Check this PR [chore: add sql review action](https://github.com/Bytebase/Bytebase/pull/2100) to see how to add this action into your repository.
   - Check this PR [chore: add test sql](https://github.com/Bytebase/Bytebase/pull/2177/files) to see how this action works in your pull request.
