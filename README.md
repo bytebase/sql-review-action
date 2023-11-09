@@ -30,7 +30,16 @@ The action will be triggered in any pull request which has SQL files changed. It
 
 ### About parameters
 
-- `database-type`: **Required**. The database type, should be one of `MYSQL`, `POSTGRES` or `TIDB`.
+- `database-type`: **Required**. The database type, should be one of:
+  - `MYSQL`
+  - `POSTGRES`
+  - `TIDB`
+  - `ORACLE`
+  - `OCEANBASE_ORACLE`
+  - `OCEANBASE`
+  - `SNOWFLAKE`
+  - `MSSQL`
+  - `MARIADB`
 - `override-file-path`: **Optional**. Your SQL review rules configuration file path. You can configure and generate this file in [Bytebase SQL Review Guide](https://www.bytebase.com/sql-review-guide) page. You can ignore this parameter and only provide the `template-id` if you don't want to customize rules.
 - `template-id`: **Optional**. The SQL Review rule template id, should be one of [`bb.sql-review.prod`](https://bytebase.com//sql-review-guide?templateId=bb.sql-review.prod) or [`bb.sql-review.dev`](https://bytebase.com//sql-review-guide?templateId=bb.sql-review.dev). You can ignore this parameter if you provide the `override-file-path` parameter.
 - `file-pattern`: **Optional**. The file path regex pattern for your SQL files. Defaults `^.*\.sql$`. For example, if you only want to subscribe to the SQL file changes in the `db` folder, you can set this parameter to `^db/.*\.sql$`.

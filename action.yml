@@ -6,10 +6,10 @@ inputs:
     required: false
     default: ""
   database-type:
-    description: 'The database type, should be one of "MYSQL", "POSTGRES" or "TIDB".'
+    description: 'The database type. Please check https://github.com/bytebase/sql-review-action/blob/main/README.md#about-parameters for support database engines.'
     required: true
   template-id:
-    description: 'The SQL check template id, required if the override is not specified. Should be one of "bb.sql-review.prod", "bb.sql-review.dev".'
+    description: 'The SQL check template id, required if the "override-file-path" is not specified. Should be one of "bb.sql-review.prod", "bb.sql-review.dev".'
     required: false
   file-pattern:
     description: 'The file path pattern for your SQL files. Defaults "^.*\.sql$"'
