@@ -20,7 +20,7 @@ runs:
   steps:
     - name: Get changed files
       id: changed-files
-      uses: umani/changed-files@v3.3.0
+      uses: umani/changed-files@v4.1.0
       with:
         repo-token: ${{ github.token }}
         pattern: "${{ inputs.file-pattern }}"
